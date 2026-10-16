@@ -1,12 +1,9 @@
-import { Container, Spinner } from "react-bootstrap";
-
-function Loader() {
-    return (
-        <Container>
-            <Spinner variant="dark" />
-            <span className="ms-1">Carregando...</span>
-        </Container>
-    );
+import { LoaderCircle } from "lucide-react";
+export default function Loader() {
+  return (
+    <div className="loading-state" role="status">
+      <LoaderCircle className="spin" size={30} />
+      <p>Organizando tudo por aqui…</p>
+    </div>
+  );
 }
-
-export default Loader;

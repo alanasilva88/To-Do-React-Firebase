@@ -1,51 +1,109 @@
-import { Container, Accordion, Button, Alert } from "react-bootstrap";
-
-
-function Ajuda() {
-    return (
-        <main className="mt-4">
-            <Container fluid>
-                <h1 className="font-sans-bold text-2xl border-b-4 m-4">Ajuda</h1>
-                {/* <hr /> */}
-                <div className="m-4 shadow-lg">
-                    <Accordion defaultActiveKey="0">
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>Sobre nosso sistema</Accordion.Header>
-                                <Accordion.Body>
-                                MyTask é um sistema para gerenciamento de tarefas pessoais. Nessa aplicação você pode gerenciar todos os seus afazeres.
-                                </Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item eventKey="1">
-                            <Accordion.Header>Sobre a empresa</Accordion.Header>
-                                <Accordion.Body>
-                                Essa empresa envolve soluções focadas em produtividade e bem-estar.
-                                </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
-                </div>
-            </Container>
-                <div className="grid gap-4 grid-cols-2 grid-rows-2">
-                        <div className="m-4 p-2 shadow-lg">
-                            <h2 className="text-xl border-b-2">Como começar?</h2>
-                            <li className="py-4"><b>Crie uma conta.</b> Para aproveitar ao máximo o My Task, você precisará criar uma conta. Clique em <b>"Cadastrar"</b> na página inicial e preencha o formulário de registro com suas informações básicas. Isso garante que suas tarefas estarão seguras e acessíveis apenas por você.</li>
-                            <li><b>Faça login.</b> Ao entrar na sua conta, você será direcionado à página principal do My Task, onde poderá começar a gerenciar suas tarefas.</li>
-                        </div>
-                        <div className="m-4 p-2 shadow-lg">
-                            <h2 className="text-xl border-b-2">Como usar o My Task?</h2>
-                            <li className="py-4"><b>Adicione uma nova tarefa.</b> Na página principal, você encontrará um formulário para adicionar novas tarefas. Basta preencher os campos com o título da tarefa, a descrição e a data de conclusão desejada. <b>Clique em "Adicionar Tarefa"</b> para salvá-la na sua lista de tarefas pendentes.</li>
-                            
-                            <li><b>Gerencie suas tarefas.</b> Tarefas pendentes: Todas as tarefas que você adicionar aparecerão na seção de "Tarefas Pendentes". Aqui, você pode visualizar todas as atividades que ainda precisam ser concluídas.
-                            Concluir uma tarefa: Quando terminar uma tarefa, marque-a como concluída. Ela será automaticamente movida para a <b>seção "Tarefas Concluídas"</b>. <b>Tarefas concluídas:</b> Visualize todas as tarefas que você já completou. Essa seção ajuda você a acompanhar seu progresso e a manter o controle de suas atividades.</li>
-                        </div>
-                    
-                </div>
-                
-                {/* <Button className="mt-1 me-1">Entre em contato</Button>
-                <Button className="mt-1 me-1" variant="outline-danger">Denunciar</Button>
-                <Alert className="mt-1" variant="warning">Atenção! Estamos em manutenção!</Alert> */}
-           
-        </main >
-    );
+import { Link } from "react-router-dom";
+import {
+  ArrowRight,
+  BookOpen,
+  CircleHelp,
+  ListPlus,
+  Pencil,
+  UserRoundPlus,
+  CheckCheck,
+} from "lucide-react";
+export default function Ajuda() {
+  return (
+    <main className="page-width content-page help-page">
+      <div className="center-heading">
+        <span className="eyebrow">UM POUCO DE DIREÇÃO</span>
+        <h1>Vamos simplificar as coisas.</h1>
+        <p>Tudo o que você precisa para encontrar seu ritmo no ToDoTask.</p>
+      </div>
+      <div className="help-steps">
+        {[
+          [
+            UserRoundPlus,
+            "01",
+            "Crie seu espaço",
+            "Cadastre-se com e-mail e senha ou entre com a sua conta Google.",
+          ],
+          [
+            ListPlus,
+            "02",
+            "Tire os planos do papel",
+            "Crie uma tarefa, adicione os detalhes e escolha uma categoria.",
+          ],
+          [
+            CheckCheck,
+            "03",
+            "Celebre cada passo",
+            "Edite a tarefa para marcar como concluída e acompanhe seu progresso.",
+          ],
+        ].map(([Icon, n, t, d]) => (
+          <article className="panel" key={n}>
+            <div className="step-top">
+              <span className="feature-icon tone-0">
+                <Icon size={24} />
+              </span>
+              <span>{n}</span>
+            </div>
+            <h2>{t}</h2>
+            <p>{d}</p>
+          </article>
+        ))}
+      </div>
+      <section className="faq-layout">
+        <div>
+          <span className="feature-icon tone-1">
+            <CircleHelp size={24} />
+          </span>
+          <h2>Perguntas frequentes</h2>
+          <p>Pequenas respostas para seguir com mais confiança.</p>
+          <Link className="text-link" to="/tarefas">
+            Ir para minhas tarefas
+            <ArrowRight size={17} />
+          </Link>
+        </div>
+        <div className="faq-list">
+          {[
+            [
+              "Como organizo minhas tarefas?",
+              "Use as categorias Trabalho, Estudos, Projetos, Lazer ou Outros. Na lista, você pode buscar pelo título ou descrição e filtrar por categoria e status.",
+            ],
+            [
+              "Como marco uma tarefa como concluída?",
+              "Clique no ícone de edição da tarefa, marque a opção Já está concluída? e salve. O resumo de progresso será atualizado na lista.",
+            ],
+            [
+              "Preciso definir uma data?",
+              "Não. A data é opcional: você pode organizar tarefas sem prazo e adicionar uma data depois.",
+            ],
+            [
+              "Como altero ou excluo uma tarefa?",
+              "Use o lápis para editar os detalhes ou a lixeira para excluir. A exclusão pede confirmação e não pode ser desfeita.",
+            ],
+            [
+              "Posso acessar em outro dispositivo?",
+              "Sim. Entre com a mesma conta para acessar suas tarefas no computador ou no celular.",
+            ],
+          ].map(([q, a]) => (
+            <details key={q}>
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+      <div className="help-banner">
+        <BookOpen size={28} />
+        <div>
+          <h2>Organização é um hábito, não uma corrida.</h2>
+          <p>
+            Comece com uma tarefa simples. O resto vem um passo de cada vez.
+          </p>
+        </div>
+        <Link to="/tarefas/adicionar" className="button button-primary">
+          <Pencil size={17} />
+          Criar uma tarefa
+        </Link>
+      </div>
+    </main>
+  );
 }
-
-export default Ajuda;

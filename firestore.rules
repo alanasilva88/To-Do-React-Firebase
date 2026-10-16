@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /tarefas/{tarefaId} {
+      function autenticado() {
+        return request.auth != null;
+      }
+      function dono() {
+        return autenticado() && resource.data.idUsuario == request.auth.uid;
+      }
+      function dadosValidos() {
+        let dados = request.resource.data;
+        return dados.keys().hasAll(['idUsuario', 'titulo', 'descricao', 'dataConclusao', 'concluido', 'categoria'])
+          && dados.keys().hasOnly(['idUsuario', 'titulo', 'descricao', 'dataConclusao', 'concluido', 'categoria'])
+          && dados.idUsuario is string
+          && dados.titulo is string && dados.titulo.size() > 0 && dados.titulo.size() <= 200
+          && dados.descricao is string && dados.descricao.size() > 0 && dados.descricao.size() <= 500
+          && dados.dataConclusao is string
+          && (dados.dataConclusao == '' || dados.dataConclusao.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$'))
+          && dados.concluido is bool
+          && dados.categoria in ['Trabalho', 'Estudos', 'Projetos', 'Lazer', 'Outros'];
+      }
+      allow read, delete: if dono();
+      allow create: if autenticado()
+        && request.resource.data.idUsuario == request.auth.uid && dadosValidos();
+      allow update: if dono()
+        && request.resource.data.idUsuario == resource.data.idUsuario && dadosValidos();
+    }
+  }
+}

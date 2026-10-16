@@ -1,86 +1,109 @@
-# MyTask - Gerenciamento de Tarefas Pessoais
+# ToDoTask
 
-**MyTask** é um sistema para gerenciamento de tarefas pessoais. Com esta aplicação, você pode cadastrar, visualizar, editar e excluir suas atividades diárias de maneira fácil e organizada.
-
-Você pode acessar a página em [My Task - Deploy](https://my-task2-2af62.web.app/).
+Aplicação para organizar tarefas pessoais, com autenticação Firebase, categorias, busca, filtros e temas claro e escuro.
 
 ## Funcionalidades
 
-- **Cadastro e Login de Usuário**: Os usuários podem se registrar e fazer login para acessar suas tarefas.
-- **Gerenciamento de Tarefas**: Adicione, edite, visualize e exclua tarefas.
-- **Interface Responsiva**: A interface é construída com `Tailwind CSS` e `React-Bootstrap` para ser totalmente responsiva e amigável.
-- **Persistência de Dados**: As tarefas e dados do usuário são armazenados no Firebase.
+- Cadastro e login por e-mail/senha ou Google.
+- Criação, edição e exclusão de tarefas associadas à conta.
+- Categorias, datas opcionais e status de conclusão.
+- Busca por título ou descrição, filtros e resumo de progresso.
+- Interface responsiva com ícones Lucide.
+- Tema inicial baseado no sistema e preferência salva no navegador.
 
-## Dependências
+## Tecnologias
 
-Este projeto utiliza as seguintes dependências:
+React 18, Vite 5, React Router, React Hook Form, Firebase Authentication, Cloud Firestore, React Hot Toast, Lucide React, CSS e Tailwind CSS.
 
-- **bootstrap**: Framework CSS para estilização do frontend.
-- **firebase**: Plataforma para desenvolvimento de aplicativos web com autenticação e banco de dados em tempo real.
-- **react**: Biblioteca principal para construção da interface de usuário.
-- **react-bootstrap**: Componentes de Bootstrap para React.
-- **react-dom**: Pacote para manipulação do DOM com React.
-- **react-hook-form**: Biblioteca para gerenciamento de formulários em React.
-- **react-hot-toast**: Biblioteca para exibição de notificações toast.
-- **react-icons**: Conjunto de ícones populares para React.
-- **react-router-dom**: Biblioteca para gerenciamento de rotas no React.
+## Executar localmente
 
-## Instalação
+Use Node.js 22 LTS e npm.
 
-Siga os passos abaixo para rodar o projeto localmente:
+```bash
+npm ci
+```
 
-Este é um guia simples para configurar e executar a aplicação mytask em sua máquina local.
+Copie `.env.example` para `.env.local` e preencha os valores do aplicativo Web disponíveis nas configurações do seu projeto Firebase:
 
-## Pré-requisitos
-Antes de começar, certifique-se de ter instalado em sua máquina:
+```dotenv
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
 
-- Node.js (v14 ou superior)
-- npm (ou yarn, se preferir)
-  
-## Passos para Configuração
+```bash
+npm run dev
+```
 
-1. **Clone o repositório:**
+Abra o endereço informado no terminal. Reinicie o servidor após alterar as variáveis de ambiente.
 
-   ```bash
-   git clone https://github.com/seu-usuario/my-task.git
-   cd my-task ```
+O arquivo `.env.local` não é versionado. As variáveis `VITE_*` são incluídas no frontend; não coloque credenciais administrativas ou chaves privadas nelas. A autorização de acesso aos dados depende das regras do Firestore.
 
-2. **Instale as Dependências**
+## Configurar o Firebase
 
-   Abra um terminal na pasta do projeto e execute o seguinte comando para instalar todas as dependências necessárias:
+1. Registre um aplicativo Web no seu projeto Firebase.
+2. Habilite os provedores **E-mail/senha** e **Google** no Authentication. Configure o e-mail de suporte do provedor Google.
+3. Adicione `localhost` e seu domínio de produção aos domínios autorizados no Authentication.
+4. Crie o banco Cloud Firestore.
+5. Publique o conteúdo de `firestore.rules` na aba de regras do Firestore.
 
-   ```bash
-   npm install
-   # ou, se estiver usando yarn
-   yarn
+As regras limitam o acesso às tarefas ao proprietário e validam os campos. Documentos antigos fora do formato permitido precisam ser ajustados antes da edição.
 
-3. **Configuração do Firebase**
+## Comandos
 
-- Crie um projeto no Firebase (se ainda não tiver um).
+| Comando                | Finalidade                                 |
+| ---------------------- | ------------------------------------------ |
+| `npm run dev`          | Iniciar o servidor de desenvolvimento      |
+| `npm run build`        | Gerar a aplicação em `dist/`               |
+| `npm run preview`      | Visualizar o build localmente              |
+| `npm run lint`         | Verificar código com ESLint                |
+| `npm run format`       | Formatar os arquivos com Prettier          |
+| `npm run format:check` | Conferir a formatação sem alterar arquivos |
+| `npm run check`        | Verificar formatação, lint e build         |
 
-- Copie as credenciais do Firebase (apiKey, authDomain, projectId, etc.) do seu projeto Firebase para o arquivo de configuração Firebase da aplicação.
+## Estrutura
 
-   - No projeto, crie um arquivo `.env` na raiz do projeto e adicione suas credenciais Firebase da seguinte maneira:
+```text
+src/
+  assets/       Logo da aplicação
+  components/   Navegação, formulários compartilhados, tema e estados de interface
+  contexts/     Contexto do usuário autenticado
+  firebase/     Inicialização do Firebase e serviços de autenticação e tarefas
+  pages/        Páginas associadas às rotas
+  utils/        Funções auxiliares de apresentação
+  App.jsx       Rotas e assinatura da autenticação
+  index.css     Estilos, responsividade e temas
+  main.jsx      Entrada da aplicação
+public/         Favicon e arquivos públicos
+firestore.rules Regras de autorização e validação
+firebase.json   Configuração de Hosting e Firestore
+```
 
-   ```makefile
-   API_KEY=<sua-api-key>
-   AUTH_DOMAIN=<seu-auth-domain>
-   PROJECT_ID=<seu-project-id>
-   STORAGE_BUCKET=<seu-storage-bucket>
-   MESSAGING_SENDER_ID=<seu-messaging-sender-id>
-   APP_ID=<seu-app-id>
+## Publicação no Firebase
 
+Com a Firebase CLI instalada e autenticada, execute:
 
-Certifique-se de substituir sua-api-key, seu-auth-domain, etc., pelas suas próprias credenciais do Firebase.
+```bash
+npm run check
+firebase deploy --only firestore:rules,hosting --project SEU_PROJECT_ID
+```
 
-4. **Executar a Aplicação em Modo de Desenvolvimento**
+Substitua `SEU_PROJECT_ID` pelo projeto desejado. O alias em `.firebaserc` veio da configuração original; confira o destino antes de publicar. O Hosting serve `dist/` e redireciona as rotas para `index.html`.
 
-   Após a instalação das dependências e configuração do Firebase, você pode iniciar a aplicação em modo de desenvolvimento usando o seguinte comando:
+## Validação manual
 
-   ```bash
-   npm run dev
-   # ou
-   yarn dev
+Ainda não há uma suíte de testes automatizados configurada. Antes de publicar, confira:
 
+- Cadastro, login por senha e Google, e logout.
+- Criação, edição, conclusão e exclusão de tarefas.
+- Busca, filtros, data vazia e exibição de datas.
+- Isolamento entre duas contas, incluindo acesso direto à URL de edição.
+- Tema claro/escuro e persistência após recarregar.
+- Navegação pelo teclado e interface em telas pequenas.
 
+A página de privacidade descreve o funcionamento atual. A política completa e o canal de atendimento precisam ser definidos pelo responsável pelo serviço.
 
+Desenvolvido por Alana Silva.

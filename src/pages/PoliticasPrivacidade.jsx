@@ -1,41 +1,68 @@
-import { Container, Accordion } from "react-bootstrap";
-
-
-function PoliticasPrivacidade() {
-    return (
-        <main>
-            <Container fluid className="py-4">
-                <h1 class="text-center">Políticas de Privacidade</h1>
-                <Accordion defaultActiveKey="0">
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>POLÍTICA DE PRIVACIDADE</Accordion.Header>
-                        <Accordion.Body>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum.
-                        </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                        <Accordion.Header>FAQ - PERGUNTAS FREQUENTES</Accordion.Header>
-                        <Accordion.Body>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                            minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                            culpa qui officia deserunt mollit anim id est laborum.
-                        </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion>
-            </Container>
-        </main>
-
-    );
+import { Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  ShieldCheck,
+  Database,
+  Fingerprint,
+  CircleHelp,
+} from "lucide-react";
+export default function PoliticasPrivacidade() {
+  return (
+    <main className="page-width content-page privacy-page">
+      <Link className="back-link" to="/">
+        <ArrowLeft size={17} />
+        Voltar ao início
+      </Link>
+      <div className="center-heading">
+        <span className="feature-icon tone-1">
+          <ShieldCheck size={28} />
+        </span>
+        <span className="eyebrow">CLAREZA TAMBÉM É CUIDADO</span>
+        <h1>Sobre seus dados.</h1>
+        <p>Entenda as informações utilizadas para o ToDoTask funcionar.</p>
+      </div>
+      <div className="privacy-notice">
+        <CircleHelp size={20} />
+        <p>
+          Esta página descreve o funcionamento atual da aplicação. A política de
+          privacidade completa e os canais de atendimento ainda precisam ser
+          definidos pelo responsável pelo serviço.
+        </p>
+      </div>
+      <div className="privacy-sections">
+        {[
+          [
+            Fingerprint,
+            "Sua conta",
+            "O acesso usa o Firebase Authentication. Ao se cadastrar, você informa nome, e-mail e senha, ou utiliza sua conta Google para entrar.",
+          ],
+          [
+            Database,
+            "Suas tarefas",
+            "Título, descrição, categoria, data e status são armazenados no Cloud Firestore e associados ao identificador da sua conta. A exclusão de tarefas está disponível na própria lista.",
+          ],
+          [
+            ShieldCheck,
+            "Acesso às informações",
+            "A aplicação consulta as tarefas associadas à sua conta. A proteção no banco depende das regras de acesso publicadas no projeto Firebase.",
+          ],
+          [
+            CircleHelp,
+            "Controles disponíveis",
+            "Você pode editar e excluir suas tarefas ou sair da conta pelo menu. A exclusão da conta e solicitações sobre dados ainda não possuem um fluxo de atendimento nesta aplicação.",
+          ],
+        ].map(([Icon, t, p]) => (
+          <section className="panel" key={t}>
+            <span className="feature-icon tone-0">
+              <Icon size={23} />
+            </span>
+            <div>
+              <h2>{t}</h2>
+              <p>{p}</p>
+            </div>
+          </section>
+        ))}
+      </div>
+    </main>
+  );
 }
-
-export default PoliticasPrivacidade;

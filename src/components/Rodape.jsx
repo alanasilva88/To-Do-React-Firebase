@@ -1,19 +1,19 @@
-import { Link } from 'react-router-dom';
-import { Button } from "react-bootstrap";
-
-
-function Rodape() {
-    return (
-        <footer className="text-center text-light bg-dark py-4" >
-
-            <p>&copy; 2024. Desenvolvido por Alana Silva. Todos os direitos reservados.</p>
-            {/* <Link to="/politicas" className='text-decoration-none'>
-                <Button variant="outline-secondary">Políticas de Privacidade</Button>
-            </Link> */}
-
-        </footer>
-
-    );
+import { Link } from "react-router-dom";
+import { CheckCheck } from "lucide-react";
+export default function Rodape() {
+  return (
+    <footer className="site-footer">
+      <div className="footer-inner">
+        <span className="footer-brand">
+          <CheckCheck size={20} />
+          ToDoTask<span className="footer-tagline">Um passo de cada vez.</span>
+        </span>
+        <span>© {new Date().getFullYear()} · Alana Silva</span>
+        <div>
+          <Link to="/ajuda">Ajuda</Link>
+          <Link to="/politicas">Privacidade</Link>
+        </div>
+      </div>
+    </footer>
+  );
 }
-
-export default Rodape;
